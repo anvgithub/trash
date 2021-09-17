@@ -21,14 +21,14 @@ skip_provider_registration = "true"
   features {}
 }
 
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "vnet" {
   name     = "my-resources"
   location = "West US"
 }
 
 module "vnet" {
   source              = "Azure/vnet/azurerm"
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = azurerm_resource_group.vnet.name
   address_space       = ["10.0.0.0/16"]
   subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   subnet_names        = ["subnet1", "subnet2", "subnet3"]
@@ -48,8 +48,8 @@ module "vnet" {
 
 resource "azurerm_network_security_group" "ssh" {
   name                = "ssh"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.vnet.name
+  location            = azurerm_resource_group.vnet.location
 
   security_rule {
     name                       = "test123"
