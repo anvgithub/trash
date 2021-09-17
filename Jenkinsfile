@@ -16,7 +16,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID')]) {
                          sh """
                         echo "Creating Terraform init"
-                        terraform init 
+                        terraform init -backend-config="access_key=$ARM_ACCESS_KEY"
                         """
                     }
                 }
