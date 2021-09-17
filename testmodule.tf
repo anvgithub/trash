@@ -21,43 +21,47 @@ skip_provider_registration = "true"
   features {}
 }
 
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "West Europe"
+}
+
+module "linuxservers" {
+  source              = "Azure/compute/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  vm_os_simple        = "UbuntuServer"
+  public_ip_dns       = ["linsimplevmips"] // change to a unique name per datacenter region
+  vnet_subnet_id      = module.network.vnet_subnets[0]
+
+  depends_on = [azurerm_resource_group.example]
+}
+
+module "windowsservers" {
+  source              = "Azure/compute/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  is_windows_image    = true
+  vm_hostname         = "mywinvm" // line can be removed if only one VM module per resource group
+  admin_password      = "ComplxP@ssw0rd!"
+  vm_os_simple        = "WindowsServer"
+  public_ip_dns       = ["winsimplevmips"] // change to a unique name per datacenter region
+  vnet_subnet_id      = module.network.vnet_subnets[0]
+
+  depends_on = [azurerm_resource_group.example]
+}
+
 module "network" {
-    source              = "Azure/network/azurerm"
-    location            = "westus"
-    resource_group_name = "${var.resource_group_name}"
-  }
+  source              = "Azure/network/azurerm"
+  resource_group_name = azurerm_resource_group.example.name
+  subnet_prefixes     = ["10.0.1.0/24"]
+  subnet_names        = ["subnet1"]
 
-module "loadbalancer" {
-  source              = "Azure/loadbalancer/azurerm"
-  resource_group_name = "${var.resource_group_name}"
-  location            = "westus"
-  prefix              = "terraform-test"
-  lb_port             = {
-                          http  = ["80", "Tcp", "80"]
-                          https = ["443", "Tcp", "443"]
-                          #ssh   = ["22", "Tcp", "22"]
-                        }
+  depends_on = [azurerm_resource_group.example]
 }
 
-module "computegroup" {
-    source              = "https://github.com/anvgithub/trash"
-    resource_group_name = "${var.resource_group_name}"
-    location            = "westus"
-    vm_size             = "Standard_A0"
-    admin_username      = "azureuser"
-    admin_password      = "ComplexPassword"
-    ssh_key             = "~/.ssh/id_rsa.pub"
-    nb_instance         = 2
-    vm_os_simple        = "UbuntuServer"
-    vnet_subnet_id      = "${module.network.vnet_subnets[0]}"
-    load_balancer_backend_address_pool_ids = "${module.loadbalancer.azurerm_lb_backend_address_pool_id}"
-    cmd_extension       = "sudo apt-get -y install nginx"
-    tags                = {
-                            environment = "dev"
-                            costcenter  = "it"
-                          }
+output "linux_vm_public_name" {
+  value = module.linuxservers.public_ip_dns_name
 }
 
-output "vmss_id"{
-  value = "${module.computegroup.vmss_id}"
+output "windows_vm_public_name" {
+  value = module.windowsservers.public_ip_dns_name
 }
