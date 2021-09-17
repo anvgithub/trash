@@ -1,19 +1,3 @@
-terraform {
-
-  required_version = ">=0.12"
-  
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "~>2.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  skip_provider_registration = "true"
-  features {}
-}
 module "os" {
   source       = "./os"
   vm_os_simple = "${ var.vm_os_simple }"
