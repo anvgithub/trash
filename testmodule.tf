@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "example" {
   location = "West US"
 }
 
-module "vnet" {
+module "vnet_dev" {
   source              = "Azure/vnet/azurerm"
   resource_group_name = azurerm_resource_group.example.name
   address_space       = ["10.0.0.0/16"]
@@ -49,7 +49,7 @@ module "vnet" {
   location = "East US"
 }
 
-module "vnet" {
+module "vnet_prod" {
   source              = "Azure/vnet/azurerm"
   resource_group_name = azurerm_resource_group.example1.name
   address_space       = ["10.0.0.0/16"]
