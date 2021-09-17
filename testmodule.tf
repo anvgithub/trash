@@ -44,7 +44,7 @@ module "loadbalancer" {
 }
 
 module "computegroup" {
-    source              = "Azure/computegroup/azurerm"
+    source              = "https://github.com/anvgithub/trash/tree/main/module"
     resource_group_name = "${var.resource_group_name}"
     location            = "westus"
     vm_size             = "Standard_A0"
