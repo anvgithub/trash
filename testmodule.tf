@@ -3,13 +3,19 @@ terraform {
   required_version = ">=0.12"
   
   required_providers {
-      azurerm = {
+    azurerm = {
       source = "hashicorp/azurerm"
       version = "~>2.0"
     }
   }
-}
 
+    backend "azurerm" {
+        resource_group_name  = "system_resource_group"
+        storage_account_name = "storageforsystemdata"
+        container_name       = "tfstate"
+        key                  = "terraform.tfstate"
+    }
+}
 provider "azurerm" {
   features {}
 }
@@ -19,7 +25,7 @@ resource "azurerm_resource_group" "example" {
   location = "West US"
 }
 
-module "vnet_dev" {
+module "vnet" {
   source              = "Azure/vnet/azurerm"
   resource_group_name = azurerm_resource_group.example.name
   address_space       = ["10.0.0.0/16"]
@@ -43,7 +49,7 @@ module "vnet_dev" {
   location = "East US"
 }
 
-module "vnet_prod" {
+module "vnet" {
   source              = "Azure/vnet/azurerm"
   resource_group_name = azurerm_resource_group.example1.name
   address_space       = ["10.0.0.0/16"]
