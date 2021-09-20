@@ -211,7 +211,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
  }
 
  os_profile_linux_config {
-   disable_password_authentication = true
+   disable_password_authentication = var.enable_ssh_key
  }
   
    dynamic ssh_keys {
