@@ -21,6 +21,10 @@ provider "azurerm" {
   features {}
 }
 
+locals {
+  ssh_keys = compact(concat([var.ssh_key], var.extra_ssh_keys))
+}
+
 resource "azurerm_resource_group" "vmss" {
  name     = var.resource_group_name
  location = var.location
@@ -184,6 +188,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
  resource_group_name   = azurerm_resource_group.vmss.name
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
  vm_size               = "Standard_DS1_v2"
+ enable_ssh_key        = true
 
  storage_image_reference {
    publisher = "Canonical"
@@ -208,6 +213,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
  os_profile_linux_config {
    disable_password_authentication = false
  }
+  
 
  tags = var.tags
 }
