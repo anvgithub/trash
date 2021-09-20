@@ -20,50 +20,47 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "example" {
-  name     = "dev-resources"
-  location = "West US"
+variable "resource_group_name" {
+    default = "terraform-test"
 }
 
-module "vnet_dev" {
-  source              = "Azure/vnet/azurerm"
-  resource_group_name = azurerm_resource_group.example.name
-  address_space       = ["10.0.0.0/16"]
-  subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  subnet_names        = ["subnet1", "subnet2", "subnet3"]
-
-  subnet_service_endpoints = {
-    subnet2 = ["Microsoft.Storage", "Microsoft.Sql"],
-    subnet3 = ["Microsoft.AzureActiveDirectory"]
+module "network" {
+    source              = "Azure/network/azurerm"
+    location            = "westus"
+    resource_group_name = "${var.resource_group_name}"
   }
 
-  tags = {
-    environment = "dev"
-  }
-
-  depends_on = [azurerm_resource_group.example]
+module "loadbalancer" {
+  source              = "Azure/loadbalancer/azurerm"
+  resource_group_name = "${var.resource_group_name}"
+  location            = "westus"
+  prefix              = "terraform-test"
+  lb_port             = {
+                          http  = ["80", "Tcp", "80"]
+                          https = ["443", "Tcp", "443"]
+                          ssh   = ["22", "Tcp", "22"]
+                        }
 }
 
-  resource "azurerm_resource_group" "example1" {
-  name     = "prod-resources"
-  location = "East US"
+module "computegroup" {
+    source              = "Azure/computegroup/azurerm"
+    resource_group_name = "${var.resource_group_name}"
+    location            = "westus"
+    vm_size             = "Standard_A0"
+    admin_username      = "azureuser"
+    admin_password      = "ComplexPassword"
+    ssh_key             = "~/.ssh/id_rsa.pub"
+    nb_instance         = 2
+    vm_os_simple        = "UbuntuServer"
+    vnet_subnet_id      = "${module.network.vnet_subnets[0]}"
+    load_balancer_backend_address_pool_ids = "${module.loadbalancer.azurerm_lb_backend_address_pool_id}"
+    cmd_extension       = "sudo apt-get -y install nginx"
+    tags                = {
+                            environment = "dev"
+                            costcenter  = "it"
+                          }
 }
 
-module "vnet_prod" {
-  source              = "Azure/vnet/azurerm"
-  resource_group_name = azurerm_resource_group.example1.name
-  address_space       = ["10.0.0.0/16"]
-  subnet_prefixes     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  subnet_names        = ["subnet1", "subnet2", "subnet3"]
-
-  subnet_service_endpoints = {
-    subnet2 = ["Microsoft.Storage", "Microsoft.Sql"],
-    subnet3 = ["Microsoft.AzureActiveDirectory"]
-  }
-
-  tags = {
-    environment = "prod"
-  }
-
-  depends_on = [azurerm_resource_group.example1]
+output "vmss_id"{
+  value = "${module.computegroup.vmss_id}"
 }
