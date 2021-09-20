@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "vmss" {
 }
 
 resource "azurerm_virtual_machine_scale_set" "vm-linux" {
-  count               = "${ contains(tolist("${var.vm_os_simple}","${var.vm_os_offer}"), "WindowsServer") ? 0 : 1 }"
+  count               = "${ contains(tolist([var.vm_os_simple, var.vm_os_offer]), "WindowsServer") ? 0 : 1 }"
   name                = "${var.vmscaleset_name}"
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.vmss.name}"
@@ -86,7 +86,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-linux" {
 }
 
 resource "azurerm_virtual_machine_scale_set" "vm-windows" {
-  count               = "${ contains(list("${var.vm_os_simple}","${var.vm_os_offer}"), "WindowsServer") ? 1 : 0 }"
+  count               = "${ contains(tolist([var.vm_os_simple, var.vm_os_offer]), "WindowsServer") ? 1 : 0 }"
   name                = "${var.vmscaleset_name}"
   location            = "${var.location}"
   resource_group_name = "${azurerm_resource_group.vmss.name}"
