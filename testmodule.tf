@@ -24,8 +24,8 @@ variable "resource_group_name" {
     default = "terraform-test"
 }
 
-module "network" {
-    source              = "Azure/network/azurerm"
+module "vnet" {
+  source              = "Azure/vnet/azurerm"
     resource_group_name = "${var.resource_group_name}"
   }
 
