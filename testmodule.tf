@@ -43,7 +43,7 @@ module "loadbalancer" {
 }
 
 module "computegroup" {
-    source              = "Azure/computegroup/azurerm"
+    source              = "./module_vm"
     resource_group_name = "${var.resource_group_name}"
     location            = "westus"
     vm_size             = "Standard_A0"
