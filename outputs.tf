@@ -1,4 +1,4 @@
-output ""azurerm_public_ip"_test" {
+output ""azurerm_public_ip_test" {
    value = azurerm_public_ip.test
 }
 
