@@ -49,8 +49,3 @@ variable "ssh_key_values" {
   default     = []
 }
 
-variable "admin_username" {
-  description = "The admin username of the VM that will be deployed."
-  type        = string
-  default     = "azureuser"
-}
