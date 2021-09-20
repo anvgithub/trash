@@ -43,7 +43,7 @@ module "loadbalancer" {
 }
 
 module "computegroup" {
-    source              = "./module_vm"
+    source              = "/var/lib/jenkins/workspace/ENV/module_vm"
     resource_group_name = "${var.resource_group_name}"
     location            = "westus"
     vm_size             = "Standard_A0"
