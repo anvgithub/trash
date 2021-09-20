@@ -21,7 +21,12 @@ provider "azurerm" {
 }
 
 variable "resource_group_name" {
-    default = "terraform-test"
+    default = "terraform"
+}
+
+resource "azurerm_resource_group" "example" {
+  name     = "${var.resource_group_name}"
+  location = "West US"
 }
 
 module "vnet" {
