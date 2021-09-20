@@ -211,9 +211,24 @@ resource "azurerm_virtual_machine" "jumpbox" {
  }
 
  os_profile_linux_config {
-   disable_password_authentication = false
+   disable_password_authentication = var.enable_ssh_key
  }
   
+   dynamic ssh_keys {
+      for_each = var.enable_ssh_key ? local.ssh_keys : []
+      content {
+        path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+        key_data = file(ssh_keys.value)
+      }
+    }
+
+    dynamic ssh_keys {
+      for_each = var.enable_ssh_key ? var.ssh_key_values : []
+      content {
+        path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+        key_data = ssh_keys.value
+      }
+    }
 
  tags = var.tags
 }
