@@ -217,7 +217,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
    dynamic ssh_keys {
       for_each = var.enable_ssh_key ? local.ssh_keys : []
       content {
-        path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+        path     = "/home/${var.admin_user}/.ssh/authorized_keys"
         key_data = file(ssh_keys.value)
       }
     }
@@ -225,7 +225,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
     dynamic ssh_keys {
       for_each = var.enable_ssh_key ? var.ssh_key_values : []
       content {
-        path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+        path     = "/home/${var.admin_user}/.ssh/authorized_keys"
         key_data = ssh_keys.value
       }
     }
