@@ -214,14 +214,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
    disable_password_authentication = var.enable_ssh_key
  }
   
-   dynamic ssh_keys {
-      for_each = var.enable_ssh_key ? local.ssh_keys : []
-      content {
-        path     = "/home/${var.admin_user}/.ssh/authorized_keys"
-        key_data = file(ssh_keys.value)
-      }
-    }
-
+  
  
  tags = var.tags
 }
