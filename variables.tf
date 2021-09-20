@@ -42,3 +42,15 @@ variable "extra_ssh_keys" {
   type        = list(string)
   default     = []
 }   
+
+variable "ssh_key_values" {
+  description = "List of Public SSH Keys values to be used for ssh access to the VMs."
+  type        = list(string)
+  default     = []
+}
+
+variable "admin_username" {
+  description = "The admin username of the VM that will be deployed."
+  type        = string
+  default     = "azureuser"
+}
