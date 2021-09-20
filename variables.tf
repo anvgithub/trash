@@ -49,3 +49,8 @@ variable "ssh_key_values" {
   default     = []
 }
 
+variable "enable_ssh_key" {
+  type        = bool
+  description = "(Optional) Enable ssh key authentication in Linux virtual Machine."
+  default     = true
+}
