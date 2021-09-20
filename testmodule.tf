@@ -22,7 +22,7 @@ provider "azurerm" {
 
 
 variable "resource_group_name" {
-    default = "dev"
+    default = "Dev"
 }
 
 
