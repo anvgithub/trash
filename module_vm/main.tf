@@ -66,6 +66,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-linux" {
 
     ip_configuration {
       name                                   = "IPConfiguration"
+      primary                                = true
       subnet_id                              = "${var.vnet_subnet_id}"
       load_balancer_backend_address_pool_ids = ["${var.load_balancer_backend_address_pool_ids}"]
     }
@@ -133,6 +134,7 @@ resource "azurerm_virtual_machine_scale_set" "vm-windows" {
 
     ip_configuration {
       name                                   = "IPConfiguration"
+      primary                                = true
       subnet_id                              = "${var.vnet_subnet_id}"
       load_balancer_backend_address_pool_ids = ["${var.load_balancer_backend_address_pool_ids}"]
     }
