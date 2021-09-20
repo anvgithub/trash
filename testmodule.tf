@@ -20,14 +20,16 @@ provider "azurerm" {
   features {}
 }
 
-variable "resource_group_name" {
-    default = "terraform"
-}
-
 resource "azurerm_resource_group" "example" {
   name     = "${var.resource_group_name}"
   location = "West US"
 }
+
+variable "resource_group_name" {
+    default = "dev"
+}
+
+
 
 module "vnet" {
   source              = "Azure/vnet/azurerm"
