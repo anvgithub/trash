@@ -26,7 +26,7 @@ variable "resource_group_name" {
 
 module "network" {
     source              = "Azure/network/azurerm"
-    location            = "westus"
+    location            = "West US"
     resource_group_name = "${var.resource_group_name}"
   }
 
