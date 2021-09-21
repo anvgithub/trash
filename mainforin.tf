@@ -210,7 +210,12 @@ resource "azurerm_virtual_machine" "jumpbox" {
  }
 
  os_profile_linux_config {
-   disable_password_authentication = false
+   disable_password_authentication =true
+ 
+   admin_ssh_key {
+    username   = "anv"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
  }
   
   
