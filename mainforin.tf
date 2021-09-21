@@ -53,7 +53,7 @@ resource "azurerm_public_ip" "lbpip" {
   name                         = "${var.lb_ip_dns_name}-ip"
   location                     = "${azurerm_resource_group.rg.location}"
   resource_group_name          = "${azurerm_resource_group.rg.name}"
-  public_ip_address_allocation = "dynamic"
+  allocation_method            = "Static"
   domain_name_label            = "${var.lb_ip_dns_name}"
 }
 
@@ -68,7 +68,7 @@ resource "azurerm_subnet" "subnet" {
   name                 = "${var.rg_prefix}subnet"
   virtual_network_name = "${azurerm_virtual_network.vnet.name}"
   resource_group_name  = "${azurerm_resource_group.rg.name}"
-  address_prefix       = ["10.0.2.0/24"]
+  address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_lb" "lb" {
