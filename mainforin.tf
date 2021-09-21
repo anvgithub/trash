@@ -134,8 +134,6 @@ resource "azurerm_network_interface" "nic" {
     name                                    = "ipconfig${count.index}"
     subnet_id                               = "${azurerm_subnet.subnet.id}"
     private_ip_address_allocation           = "Dynamic"
-    load_balancer_backend_address_pools_ids = ["${azurerm_lb_backend_address_pool.backend_pool.id}"]
-    load_balancer_inbound_nat_rules_ids     = ["${element(azurerm_lb_nat_rule.tcp.*.id, count.index)}"]
   }
 }
 
