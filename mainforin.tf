@@ -180,6 +180,10 @@ resource "azurerm_virtual_machine" "jumpbox" {
  location              = var.location
  vm_size               = "Standard_DS1_v2"
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
+   
+  os_profile_linux_config {
+   disable_password_authentication = true
+ }
   
   admin_ssh_key {
     username   = var.admin_user
@@ -189,17 +193,10 @@ resource "azurerm_virtual_machine" "jumpbox" {
    os_profile {
    computer_name  = "jumpbox"
    admin_username = var.admin_user
-   admin_password = var.admin_password
  }
 
- os_profile_linux_config {
-   disable_password_authentication = true
- }
-  
- 
- 
 
- storage_image_reference {
+   storage_image_reference {
    publisher = "Canonical"
    offer     = "UbuntuServer"
    sku       = "16.04-LTS"
