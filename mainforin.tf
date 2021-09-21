@@ -38,10 +38,10 @@ resource "azurerm_availability_set" "example" {
 }
 
 resource "azurerm_public_ip" "example" {
-  name                = "loadBalance-ip"
+  name                = "loadbalancer-ip"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   allocation_method   = "Static"
-  domain_name_label   = "loadBalance"
+  domain_name_label   = "loadbalancer"
   tags                = var.tags
 }  
