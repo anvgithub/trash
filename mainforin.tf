@@ -176,12 +176,11 @@ resource "azurerm_network_interface" "jumpbox" {
 
 resource "azurerm_virtual_machine" "jumpbox" {
  name                  = "jumpbox"
- location              = var.location
  resource_group_name   = azurerm_resource_group.vmss.name
- network_interface_ids = [azurerm_network_interface.jumpbox.id]
+ location              = var.location
  vm_size               = "Standard_DS1_v2"
  admin_username        = "anv"
-
+ network_interface_ids = [azurerm_network_interface.jumpbox.id]
 
    admin_ssh_key {
     username   = "anv"
