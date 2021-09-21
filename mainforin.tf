@@ -144,7 +144,7 @@ resource "azurerm_virtual_machine" "vm" {
   availability_set_id   = "${azurerm_availability_set.avset.id}"
   network_interface_ids = ["${element(azurerm_network_interface.nic.*.id, count.index)}"]
   count                 = 2
-  vm_size               = "Standard_D1"
+  vm_size               = "Standard_DS1_v2"
 
   storage_os_disk {
     name          = "osdisk${count.index}"
