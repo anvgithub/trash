@@ -186,8 +186,14 @@ resource "azurerm_virtual_machine" "jumpbox" {
  resource_group_name   = azurerm_resource_group.vmss.name
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
  vm_size               = "Standard_DS1_v2"
+ admin_username                  = "adminuser"
+ admin_password                  = "somePassword"
 
-
+   admin_ssh_key {
+    username   = "anv"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+ 
 
  storage_image_reference {
    publisher = "Canonical"
@@ -201,24 +207,7 @@ resource "azurerm_virtual_machine" "jumpbox" {
    caching           = "ReadWrite"
    create_option     = "FromImage"
    managed_disk_type = "Standard_LRS"
- }
-
- os_profile {
-   computer_name  = "jumpbox"
-   admin_username = var.admin_user
-   admin_password = var.admin_password
- }
-
- os_profile_linux_config {
-   disable_password_authentication =true
- 
-   admin_ssh_key {
-    username   = "anv"
-    public_key = file("~/.ssh/id_rsa.pub")
-  }
- }
-  
-  
+ }  
  
  tags = var.tags
 }
