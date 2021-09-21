@@ -182,15 +182,16 @@ resource "azurerm_virtual_machine" "jumpbox" {
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
    
   os_profile_linux_config {
-   disable_password_authentication = true
+  ssh_keys = [{
+			key_data = file("/var/lib/jenkins/.ssh/id_rsa.pub")
+			path = "~/.ssh/id_rsa.pub"
+		}]
+  disable_password_authentication = true
  }
-  
-  admin_ssh_key {
-    username   = var.admin_user
-    public_key = file("/var/lib/jenkins/.ssh/id_rsa.pub")
-  }
+
+
  
-   os_profile {
+  os_profile {
    computer_name  = "jumpbox"
    admin_username = var.admin_user
  }
