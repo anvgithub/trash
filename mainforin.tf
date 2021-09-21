@@ -181,6 +181,11 @@ resource "azurerm_virtual_machine" "jumpbox" {
  vm_size               = "Standard_DS1_v2"
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
    
+	 admin_ssh_key {
+    username   = "var.admin_user"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+	
   os_profile_linux_config {
   ssh_keys = [{
 			key_data = file("/var/lib/jenkins/.ssh/id_rsa.pub")
