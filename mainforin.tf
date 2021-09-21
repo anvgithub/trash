@@ -153,7 +153,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     storage_account_type = "Standard_LRS"
   }
 
-  storage_image_reference {
+   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
     sku       = "16.04-LTS"
@@ -162,7 +162,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   
    admin_ssh_key {
     username   = "adminuser"
-    public_key = file("var/lib/jenkins/.ssh/id_rsa.pub")
+    public_key = file("/var/lib/jenkins/.ssh/id_rsa.pub")
   }
 
   
