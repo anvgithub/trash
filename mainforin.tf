@@ -186,8 +186,6 @@ resource "azurerm_virtual_machine" "jumpbox" {
  resource_group_name   = azurerm_resource_group.vmss.name
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
  vm_size               = "Standard_DS1_v2"
- admin_username                  = "adminuser"
- admin_password                  = "somePassword"
 
    admin_ssh_key {
     username   = "anv"
