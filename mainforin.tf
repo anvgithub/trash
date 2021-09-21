@@ -27,7 +27,7 @@ resource "azurerm_resource_group" "rg" {
   name     = "javademo"
   location = "eastus"
 
-  tags {
+  tags = {
     environment = "Terraform Demo"
   }
 }
@@ -176,7 +176,7 @@ resource "azurerm_virtual_machine" "vm" {
     }
   }
 
-  tags {
+  tags = {
     environment = "Terraform Demo"
   }
 }
