@@ -1,56 +1,57 @@
-variable "resource_group_name" {
-   description = "Name of the resource group in which the resources will be created"
-   default     = "Dev_Stage"
+variable "storage-account-name" {
+  default = "vstsbuildterraform"
+}
+
+variable "container-name" {
+  default = "terraform-state"
+}
+
+variable "rg_prefix" {
+  description = "The shortened abbreviation to represent your resource group that will go on the front of some resources."
+  default     = "rg"
+}
+
+variable "dns_name" {
+  description = " Label for the Domain Name. Will be used to make up the FQDN."
+  default     = "demojavaiac"
+}
+
+variable "lb_ip_dns_name" {
+  description = "DNS for Load Balancer IP"
+  default     = "demojavaiac"
 }
 
 variable "location" {
-   default = "East US"
-   description = "Location where resources will be created"
+  description = "The location/region where the virtual network is created. Changing this forces a new resource to be created."
+  default     = "eastus"
 }
 
-variable "tags" {
-   description = "Map of the tags to use for the resources that are deployed"
-   type        = map(string)
-   default = {
-      environment = "dev"
-   }
+variable "virtual_network_name" {
+  description = "The name for the virtual network."
+  default     = "vnet"
 }
 
-variable "application_port" {
-   description = "Port that you want to expose to the external load balancer"
-   default     = 80
+variable "address_space" {
+  description = "The address space that is used by the virtual network. You can supply more than one address space. Changing this forces a new resource to be created."
+  default     = "10.0.0.0/16"
 }
 
-variable "admin_user" {
-   description = "User name to use as the admin account on the VMs that will be part of the VM scale set"
-   default     = "azureuser"
+variable "subnet_prefix" {
+  description = "The address prefix to use for the subnet."
+  default     = "10.0.10.0/24"
 }
 
-variable "admin_password" {
-   description = "Default password for admin account"
-    default     = "Mimda99"
+variable "storage_account_tier" {
+  description = "Defines the Tier of storage account to be created. Valid options are Standard and Premium."
+  default     = "Standard"
 }
 
-variable "ssh_key" {
-  description = "Path to the public key to be used for ssh access to the VM. Only used with non-Windows vms and can be left as-is even if using Windows vms. If specifying a path to a certification on a Windows machine to provision a linux vm use the / in the path versus backslash. e.g. c:/home/id_rsa.pub."
-  type        = string
-  default     = "~/.ssh/id_rsa.pub"
-}  
-
-variable "extra_ssh_keys" {
-  description = "Same as ssh_key, but allows for setting multiple public keys. Set your first key in ssh_key, and the extras here."
-  type        = list(string)
-  default     = []
-}   
-
-variable "ssh_key_values" {
-  description = "List of Public SSH Keys values to be used for ssh access to the VMs."
-  type        = list(string)
-  default     = []
+variable "storage_replication_type" {
+  description = "Defines the Replication Type to use for this storage account. Valid options include LRS, GRS etc."
+  default     = "LRS"
 }
 
-variable "enable_ssh_key" {
-  type        = bool
-  description = "(Optional) Enable ssh key authentication in Linux virtual Machine."
-  default     = true
+variable "vm_size" {
+  description = "Specifies the size of the virtual machine."
+  default     = "Standard_D1"
 }
