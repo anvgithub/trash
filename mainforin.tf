@@ -179,12 +179,19 @@ resource "azurerm_virtual_machine" "jumpbox" {
  resource_group_name   = azurerm_resource_group.vmss.name
  location              = var.location
  vm_size               = "Standard_DS1_v2"
- admin_username        = "anv"
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
- disable_password_authentication = true
 
+   os_profile {
+   computer_name  = "jumpbox"
+   admin_username = var.admin_user
+   admin_password = var.admin_password
+ }
+
+ os_profile_linux_config {
+   disable_password_authentication = true
+ }
    admin_ssh_key {
-    username   = "anv"
+    username   = var.admin_user
     public_key = file("/var/lib/jenkins/.ssh/id_rsa.pub")
   }
  
