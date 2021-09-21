@@ -176,33 +176,12 @@ resource "azurerm_network_interface" "jumpbox" {
 
 resource "azurerm_virtual_machine" "jumpbox" {
  name                  = "jumpbox"
- resource_group_name   = azurerm_resource_group.vmss.name
  location              = var.location
- vm_size               = "Standard_DS1_v2"
+ resource_group_name   = azurerm_resource_group.vmss.name
  network_interface_ids = [azurerm_network_interface.jumpbox.id]
-   
-	 admin_ssh_key {
-    username   = "var.admin_user"
-    public_key = file("~/.ssh/id_rsa.pub")
-  }
-	
-  os_profile_linux_config {
-  ssh_keys = [{
-			key_data = file("/var/lib/jenkins/.ssh/id_rsa.pub")
-			path = "~/.ssh/id_rsa.pub"
-		}]
-  disable_password_authentication = true
- }
+ vm_size               = "Standard_DS1_v2"
 
-
- 
-  os_profile {
-   computer_name  = "jumpbox"
-   admin_username = var.admin_user
- }
-
-
-   storage_image_reference {
+ storage_image_reference {
    publisher = "Canonical"
    offer     = "UbuntuServer"
    sku       = "16.04-LTS"
@@ -214,7 +193,17 @@ resource "azurerm_virtual_machine" "jumpbox" {
    caching           = "ReadWrite"
    create_option     = "FromImage"
    managed_disk_type = "Standard_LRS"
- }  
- 
+ }
+
+ os_profile {
+   computer_name  = "jumpbox"
+   admin_username = var.admin_user
+   admin_password = var.admin_password
+ }
+
+ os_profile_linux_config {
+   disable_password_authentication = false
+ }
+
  tags = var.tags
 }
