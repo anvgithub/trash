@@ -1,37 +1,57 @@
-variable "resource_group_name" {
-   description = "Name of the resource group in which the resources will be created"
-   default     = "Dev_Stage"
+variable "storage-account-name" {
+  default = "vstsbuildterraform"
 }
 
-variable "location" {
-   default = "East US"
-   description = "Location where resources will be created"
+variable "container-name" {
+  default = "terraform-state"
 }
 
-variable "tags" {
-   description = "Map of the tags to use for the resources that are deployed"
-   type        = map(string)
-   default = {
-      environment = "dev"
-   }
+variable "rg_prefix" {
+  description = "The shortened abbreviation to represent your resource group that will go on the front of some resources."
+  default     = "rg"
+}
+
+variable "dns_name" {
+  description = " Label for the Domain Name. Will be used to make up the FQDN."
+  default     = "demojavaiac"
 }
 
 variable "lb_ip_dns_name" {
   description = "DNS for Load Balancer IP"
-  default     = "demotest"
+  default     = "demojavaiac"
 }
 
-variable "application_port" {
-   description = "Port that you want to expose to the external load balancer"
-   default     = 80
+variable "location" {
+  description = "The location/region where the virtual network is created. Changing this forces a new resource to be created."
+  default     = "eastus"
 }
 
-variable "admin_user" {
-   description = "User name to use as the admin account on the VMs that will be part of the VM scale set"
-   default     = "azureuser"
+variable "virtual_network_name" {
+  description = "The name for the virtual network."
+  default     = "vnet"
 }
 
-variable "admin_password" {
-   description = "Default password for admin account"
-   default     = "Admin123!"
+variable "address_space" {
+  description = "The address space that is used by the virtual network. You can supply more than one address space. Changing this forces a new resource to be created."
+  default     = "10.0.0.0/16"
+}
+
+variable "subnet_prefix" {
+  description = "The address prefix to use for the subnet."
+  default     = "10.0.10.0/24"
+}
+
+variable "storage_account_tier" {
+  description = "Defines the Tier of storage account to be created. Valid options are Standard and Premium."
+  default     = "Standard"
+}
+
+variable "storage_replication_type" {
+  description = "Defines the Replication Type to use for this storage account. Valid options include LRS, GRS etc."
+  default     = "LRS"
+}
+
+variable "vm_size" {
+  description = "Specifies the size of the virtual machine."
+  default     = "Standard_D1"
 }
