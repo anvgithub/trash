@@ -66,16 +66,7 @@ resource "azurerm_linux_virtual_machine" "example" {
     username   = "anv"
     public_key = file("/var/lib/jenkins/.ssh/id_rsa.pub")
   }
-  
-  os_profile_linux_config {
-		ssh_keys = [{
-			key_data = file("~/.ssh/id_rsa.pub")
-			path = "~/.ssh/id_rsa.pub"
-		}]
-
-		disable_password_authentication = true
-	}
-  
+ 
 
   os_disk {
     caching              = "ReadWrite"
