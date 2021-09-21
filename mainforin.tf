@@ -137,18 +137,20 @@ resource "azurerm_network_interface" "nic" {
 }
 
 # Create virtual machine
-resource "azurerm_virtual_machine" "vm" {
+resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm${count.index}"
   location              = "${azurerm_resource_group.rg.location}"
   resource_group_name   = "${azurerm_resource_group.rg.name}"
+  admin_username        = "adminuser"
   availability_set_id   = "${azurerm_availability_set.avset.id}"
   network_interface_ids = ["${element(azurerm_network_interface.nic.*.id, count.index)}"]
   count                 = 2
-  vm_size               = "Standard_DS1_v2"
+  size                   = "Standard_F2"
 
-  storage_os_disk {
-    name          = "osdisk${count.index}"
-    create_option = "FromImage"
+   os_disk {
+    name                ="osdisk${count.index}"
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
   }
 
   storage_image_reference {
@@ -157,21 +159,13 @@ resource "azurerm_virtual_machine" "vm" {
     sku       = "16.04-LTS"
     version   = "latest"
   }
-
-  os_profile {
-    computer_name  = "myvm"
-    admin_username = "azureuser"
-    admin_password = "Passwword1234"
+  
+   admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("var/lib/jenkins/.ssh/id_rsa.pub")
   }
 
-  os_profile_linux_config {
-    disable_password_authentication = true
-
-    ssh_keys {
-      path     = "/home/azureuser/.ssh/authorized_keys"
-      key_data = "/var/lib/jenkins/.ssh/id_rsa.pub"
-    }
-  }
+  
 
   tags = {
     environment = "Terraform Demo"
