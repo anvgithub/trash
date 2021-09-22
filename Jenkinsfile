@@ -68,10 +68,9 @@ pipeline {
                         terraform apply -auto-approve 
                         """
                        script {
-                       env.TEST_VARIABLE = sh 'terraform output vm_ip'
+                        env.VM_IP = sh(script:'terraform output vm_ip', returnStdout: true).trim()
                        }
-                      
-                       sh 'echo "I can access $TEST_VARIABLE in shell command as well."'
+                      sh 'echo "I can access $VM_IP in shell command as well."'
                     }
                 }
                     
