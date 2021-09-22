@@ -14,7 +14,7 @@ pipeline {
                     clientSecretVariable: 'ARM_CLIENT_SECRET',
                     tenantIdVariable: 'ARM_TENANT_ID')]) {
                          sh """
-                        echo "Creating Terraform init"
+                        echo " Terraform init"
                         terraform init 
                         """
                     }
@@ -47,7 +47,7 @@ pipeline {
         stage('Waiting for Approval'){
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
-                    input (message: "Deploy the infrastructure?")
+                    input (message: "Do you agree to create the infrastructure?")
                 }
             }
         
@@ -81,7 +81,7 @@ pipeline {
         stage('Waiting for Destroy'){
             steps {
                 timeout(time: 12, unit: 'HOURS') {
-                    input (message: "Destroy the infrastructure?")
+                    input (message: "Are you sure destroying the infrastructure?")
                 }
             }
         
