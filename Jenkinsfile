@@ -64,12 +64,13 @@ pipeline {
                     clientSecretVariable: 'ARM_CLIENT_SECRET',
                     tenantIdVariable: 'ARM_TENANT_ID')]) {
                          sh """
-                        echo "Apply "
+                        echo "Terraform Apply "
                         terraform apply -auto-approve 
-                        export vmss_ip=${terraform output vm_ip}
-                        echo 'host1 ansible_ssh_port=50001 ansible_ssh_host=$vmss_ip' > /home/anv/inventory
-                        echo 'host2 ansible_ssh_port=50002 ansible_ssh_host=$vmss_ip' >> home/anv/inventory
-
+                        """
+                      sh """
+                       export vmss_ip=${terraform output vm_ip}
+                        echo "host1 ansible_ssh_port=50001 ansible_ssh_host=$vmss_ip" > /home/anv/inventory
+                        echo "host2 ansible_ssh_port=50002 ansible_ssh_host=$vmss_ip" >> home/anv/inventory
                         cat inventory
                         """
                     }
@@ -97,7 +98,7 @@ pipeline {
                     clientSecretVariable: 'ARM_CLIENT_SECRET',
                     tenantIdVariable: 'ARM_TENANT_ID')]) {
                          sh """
-                        echo "Apply "
+                        echo "Terraform Destroy "
                         terraform destroy -auto-approve 
                         """
                     }
