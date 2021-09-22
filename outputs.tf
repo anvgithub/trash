@@ -1,5 +1,5 @@
 output "vm_ip" {
-  value = ${azurerm_public_ip.lbpip.fqdn}
+  value = azurerm_public_ip.lbpip.fqdn
 }
 
 output "vm_dns" {
