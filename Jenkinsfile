@@ -67,6 +67,9 @@ pipeline {
                         echo "Terraform Apply "
                         terraform apply -auto-approve 
                         """
+                        sh """
+                      terraform output vm_ip
+                        """
                     }
                 }
                     
