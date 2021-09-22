@@ -171,11 +171,3 @@ resource "azurerm_linux_virtual_machine" "vm" {
     environment = "Terraform Demo"
   }
 }
-
-output "vm_ip" {
-  value = "${azurerm_public_ip.lbpip.fqdn}"
-}
-
-output "vm_dns" {
-  value = "http://${azurerm_public_ip.lbpip.fqdn}"
-}
