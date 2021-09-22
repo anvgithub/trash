@@ -67,12 +67,11 @@ pipeline {
                         echo "Terraform Apply "
                         terraform apply -auto-approve 
                         """
-                        sh """
-                        export vmss_ip=\$(terraform output vm_ip)
-                        echo "host1 ansible_ssh_port=50001 ansible_ssh_host=$vmss_ip" > /home/anv/inventory
-                        echo "host2 ansible_ssh_port=50002 ansible_ssh_host=$vmss_ip" >> /home/anv/inventory
-                        cat /home/anv/inventory
-                        """
+                       script {
+                       env.TEST_VARIABLE = "terraform output vm_ip"
+                       }
+                      
+                       sh 'echo "I can access $TEST_VARIABLE in shell command as well."'
                     }
                 }
                     
