@@ -136,6 +136,12 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
+resource "azurerm_network_interface_backend_address_pool_association" "nic_to_backend" {
+  network_interface_id    =["${element(azurerm_network_interface.nic.*.id, count.index)}"]
+  ip_configuration_name   = "ipconfig${count.index}"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.backend_pool.id}"
+}
+
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm${count.index}"
