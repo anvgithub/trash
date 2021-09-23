@@ -145,7 +145,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "nic_to_ba
 resource "azurerm_network_interface_nat_rule_association" "nic_to_nat" {
   network_interface_id  = "${azurerm_network_interface.nic[count.index].id}"
   ip_configuration_name = "ipconfig${count.index}"
-  nat_rule_id           = "${azurerm_lb_nat_rule.tcp.id}"
+  nat_rule_id           = "${azurerm_lb_nat_rule.tcp[count.index].id}"
   count                 = 2
 }
 
