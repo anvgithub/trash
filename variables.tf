@@ -15,7 +15,7 @@ variable "lb_ip_dns_name" {
 
 variable "location" {
   description = "The location/region where the virtual network is created. Changing this forces a new resource to be created."
-  default     = "East US2"
+  default     = "East US"
 }
 
 variable "virtual_network_name" {

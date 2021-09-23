@@ -25,7 +25,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "Dev_stage"
-  location = "East US2"
+  location = "East US"
 
   tags = {
     environment = "Terraform Demo"
