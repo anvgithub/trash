@@ -22,23 +22,17 @@ provider "azurerm" {
 }
 
 
-# Create a resource group if it doesn’t exist
+
 resource "azurerm_resource_group" "rg" {
-  name     = "javademo"
-  location = "eastus"
+  name     = "Dev_stage"
+  location = "East US2"
 
   tags = {
     environment = "Terraform Demo"
   }
 }
 
-resource "azurerm_storage_account" "stor" {
-  name                     = "${var.dns_name}stor"
-  location                 = "${azurerm_resource_group.rg.location}"
-  resource_group_name      = "${azurerm_resource_group.rg.name}"
-  account_tier             = "${var.storage_account_tier}"
-  account_replication_type = "${var.storage_replication_type}"
-}
+
 
 resource "azurerm_availability_set" "avset" {
   name                         = "${var.dns_name}avset"
@@ -154,7 +148,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   name                  = "vm${count.index}"
   location              = "${azurerm_resource_group.rg.location}"
   resource_group_name   = "${azurerm_resource_group.rg.name}"
-  admin_username        = "adminuser"
+  admin_username        = "anv"
   availability_set_id   = "${azurerm_availability_set.avset.id}"
   network_interface_ids = ["${element(azurerm_network_interface.nic.*.id, count.index)}"]
   count                 = 2
@@ -169,12 +163,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
    source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
   
    admin_ssh_key {
-    username   = "adminuser"
+    username   = "anv"
     public_key = file("/var/lib/jenkins/.ssh/id_rsa.pub")
   }
 
