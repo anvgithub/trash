@@ -137,7 +137,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "nic_to_backend" {
-  network_interface_ids    =["${element(azurerm_network_interface.nic.*.id, count.index)}"]
+  network_interface_id    ="${azurerm_network_interface.nic.*.id, count.index)}"
   ip_configuration_name   = "ipconfig${count.index}"
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.backend_pool.id}"
   count                 = 2
