@@ -1,5 +1,7 @@
 pipeline {
-    agent main
+ agent {
+     main {
+    
 
     stages {
     
@@ -106,4 +108,6 @@ pipeline {
             }
         }
     }
+   }
+  }
 }
