@@ -5,12 +5,12 @@ variable "rg_prefix" {
 
 variable "dns_name" {
   description = " Label for the Domain Name. Will be used to make up the FQDN."
-  default     = "intermine"
+  default     = "myappdemo"
 }
 
 variable "lb_ip_dns_name" {
   description = "DNS for Load Balancer IP"
-  default     = "intermine"
+  default     = "myappdemo"
 }
 
 variable "location" {

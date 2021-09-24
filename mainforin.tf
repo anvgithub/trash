@@ -28,7 +28,7 @@ resource "azurerm_resource_group" "rg" {
   location = "East US"
 
   tags = {
-    environment = "Terraform Demo"
+    environment = "Dev_stage"
   }
 }
 
@@ -163,7 +163,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
    source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    sku       = "20.04-LTS"
     version   = "latest"
   }
   
@@ -175,6 +175,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   
 
   tags = {
-    environment = "Terraform Demo"
+    environment = "Dev_stage"
   }
 }
