@@ -162,9 +162,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
    source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
+    version   = "20.04.202004230"
   }
   
    admin_ssh_key {
